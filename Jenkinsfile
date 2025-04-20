@@ -1,58 +1,119 @@
+// pipeline {
+//     agent any
+
+//     tools {
+//         nodejs 'NodeJS' // This should match the name set in Global Tool Config
+//     }
+
+//     environment {
+//         APP_NAME = 'ChatApp'
+//     }
+
+//     stages {
+//         stage('Clone Repo') {
+//             steps {
+//                 git 'https://github.com/ankur0704/chatapp.git'
+//             }
+//         }
+
+//         stage('Install Dependencies') {
+//             steps {
+//                bat 'npm install'
+//             }
+//         }
+
+//         stage('Lint & Test') {
+//             steps {
+//                 // Optional: If you have ESLint or test scripts
+//                 echo 'Running linter or tests (if configured)...'
+//                 // sh 'npm run lint'
+//                 // sh 'npm test'
+//             }
+//         }
+
+//         stage('Build') {
+//             steps {
+//                 echo 'No build step needed for Node.js app, continuing...'
+//             }
+//         }
+
+//         stage('Deploy') {
+//             steps {
+//                 echo 'Deploying to server...'
+//                 // Replace this with actual deploy step, like:
+//                 // sh 'scp -r * user@server:/path/to/deploy'
+//                 // Or docker build + push
+//             }
+//         }
+//     }
+
+//     post {
+//         success {
+//             echo 'Pipeline completed successfully.'
+//         }
+//         failure {
+//             echo 'Pipeline failed.'
+//         }
+//     }
+// }
+
+
 pipeline {
     agent any
-
-    tools {
-        nodejs 'NodeJS' // This should match the name set in Global Tool Config
-    }
-
-    environment {
-        APP_NAME = 'ChatApp'
-    }
-
     stages {
-        stage('Clone Repo') {
+        stage('Checkout') {
             steps {
-                git 'https://github.com/ankur0704/chatapp.git'
+                git branch: 'main', url: 'https://github.com/ankur0704/chatapp.git', 
             }
         }
 
-        stage('Install Dependencies') {
+        stage('Install Frontend Dependencies') {
             steps {
-               bat 'npm install'
+                dir('src') {
+                    bat 'npm install'
+                }
             }
         }
 
-        stage('Lint & Test') {
+        stage('Build Frontend') {
             steps {
-                // Optional: If you have ESLint or test scripts
-                echo 'Running linter or tests (if configured)...'
-                // sh 'npm run lint'
-                // sh 'npm test'
+                dir('src') {
+                    bat 'npm run build'
+                }
             }
         }
 
-        stage('Build') {
+        stage('Install Backend Dependencies') {
             steps {
-                echo 'No build step needed for Node.js app, continuing...'
+                dir('server') {
+                    bat 'npm install'
+                }
             }
         }
 
-        stage('Deploy') {
+        stage('Start Backend Server') {
             steps {
-                echo 'Deploying to server...'
-                // Replace this with actual deploy step, like:
-                // sh 'scp -r * user@server:/path/to/deploy'
-                // Or docker build + push
+                dir('server') {
+                    bat 'npm run server &'
+                }
+            }
+        }
+
+        stage('Start Frontend Server') {
+            steps {
+                dir('src') {
+                    bat 'npm run dev &'
+                }
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline completed successfully.'
+            echo 'Application has been built and started successfully.'
         }
         failure {
-            echo 'Pipeline failed.'
+            echo 'Build failed. Please check the logs for details.'
         }
     }
 }
