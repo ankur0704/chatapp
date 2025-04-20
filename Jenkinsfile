@@ -60,10 +60,19 @@
 
 pipeline {
     agent any
+
+    tools {
+        nodejs 'NodeJS' // This should match the name set in Global Tool Config
+    }
+
+    environment {
+        APP_NAME = 'ChatApp'
+    }
+
     stages {
-        stage('Checkout') {
+        stage('Clone Repo') {
             steps {
-                git branch: 'main', url: 'https://github.com/ankur0704/chatapp.git', 
+                git 'https://github.com/ankur0704/chatapp.git'
             }
         }
 
