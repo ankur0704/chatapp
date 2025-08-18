@@ -1,8 +1,127 @@
+# 💬 MERN Chat App
+
+A real-time chat application built using the MERN stack with TypeScript, Socket.IO, and TailwindCSS.
+It supports user authentication, secure messaging, and instant communication powered by WebSockets.
+
+
+
+## 🚀 Tech Stack
+
+Frontend:
+
+⚛️ React 18 (with React Router)
+
+🎨 TailwindCSS + PostCSS + Autoprefixer
+
+⚡ Vite (build tool)
+
+🛠️ TypeScript
+
+🔗 Axios (API requests)
+
+🎭 Lucide-react (icons)
+
+Backend:
+
+🌐 Node.js + Express.js
+
+🗄️ MongoDB with Mongoose ODM
+
+🔐 JWT (JSON Web Tokens) for authentication
+
+🔑 bcryptjs (password hashing)
+
+🌍 CORS + dotenv (configuration & security)
+
+Real-time Communication:
+
+🔄 Socket.IO (server + client)
+
+Development Tools:
+
+🖊️ ESLint + TypeScript ESLint
+
+🔁 Nodemon (auto-restart backend)
+
+🧪 Jenkins (CI/CD pipeline)
+
+## ✨ Features
+
+✅ User Authentication (JWT + bcrypt) 
+
+✅ Real-time messaging with Socket.IO 
+
+✅ Secure password hashing 
+
+✅ Responsive UI with TailwindCSS 
+
+✅ MongoDB persistence with Mongoose 
+
+✅ Modern frontend powered by React + Vite + TS
+## 📌 Future Improvements
+- Add group chat support
+
+- Implement message encryption
+
+- Push notifications
+
+- User profile pictures & status
+## Installation
+
+1️⃣ Clone the Repository
+
+```bash
+git clone https://github.com/ankur0704/chatapp.git
+cd chatapp
+
+```
+
+
+2️⃣ Install Dependencies
+
+```bash
 npm install
 
-npm run dev   start frontend
 
-npm run server (run mongodb locally or using cloud) open in different terminal    start backend
--mongosh
--use chat-app
--db.users.find()
+```
+
+
+3️⃣ Setup Environment Variables
+
+  Create a .env file in the root folder:
+
+```bash
+PORT=5000
+MONGO_URI=mongodb://localhost:27017/chat-app
+JWT_SECRET=your_secret_key
+
+
+```
+
+4️⃣ Run MongoDB
+
+If running locally:
+
+```bash
+mongosh
+use chat-app
+
+
+```
+
+5️⃣ Start the Application
+
+Run frontend:
+
+```bash
+npm run dev
+
+```
+
+Run backend:
+
+```bash
+npm run server
+
+```
+    
