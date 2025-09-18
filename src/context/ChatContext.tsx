@@ -64,40 +64,47 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   
   const auth = useAuth();
 
-  // Initialize socket connection
+  // Initialize socket connection ONCE per login
   useEffect(() => {
-    if (auth.user) {
-      const newSocket = io(SOCKET_URL);
-      setSocket(newSocket);
-
-      return () => {
-        newSocket.disconnect();
-      };
+    if (!auth.user) {
+      // Ensure socket is cleared on logout
+      setSocket(null);
+      return;
     }
+
+    const newSocket = io(SOCKET_URL, {
+      transports: ['websocket'],
+      reconnection: true,
+      reconnectionAttempts: 10,
+      reconnectionDelay: 500,
+    });
+
+    setSocket(newSocket);
+
+    return () => {
+      newSocket.disconnect();
+    };
   }, [auth.user]);
 
-  // Socket events
+  // Bind socket events ONCE per socket instance
   useEffect(() => {
     if (!socket || !auth.user) return;
 
-    socket.emit('user_connected', auth.user._id);
+    const handleConnect = () => {
+      socket.emit('user_connected', auth.user._id);
+    };
 
-    socket.on('user_status', ({ userId, status }) => {
+    const handleUserStatus = ({ userId, status }: { userId: string; status: string }) => {
       setOnlineUsers(prev => ({
         ...prev,
         [userId]: status === 'online'
       }));
-    });
+    };
 
-    socket.on('receive_message', (data) => {
-      // Update conversations
+    const handleReceiveMessage = (data: any) => {
       loadConversations();
-      
-      // Update current chat if we're in the same conversation
       if (currentChat?.user?._id === data.sender) {
         loadMessages(data.sender);
-        
-        // Mark message as read
         axios.put(
           `${API_URL}/api/messages/read`,
           { messageIds: [data._id] },
@@ -108,29 +115,33 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
           }
         );
       }
-    });
+    };
 
-    socket.on('typing', (data) => {
+    const handleTyping = (data: any) => {
       if (data.sender !== auth.user._id) {
         setUserTyping({ userId: data.sender, isTyping: data.isTyping });
-        
-        // Clear typing indicator after 3 seconds
         if (data.isTyping) {
           setTimeout(() => {
-            setUserTyping(prev => 
+            setUserTyping(prev =>
               prev?.userId === data.sender ? { userId: data.sender, isTyping: false } : prev
             );
           }, 3000);
         }
       }
-    });
+    };
+
+    socket.on('connect', handleConnect);
+    socket.on('user_status', handleUserStatus);
+    socket.on('receive_message', handleReceiveMessage);
+    socket.on('typing', handleTyping);
 
     return () => {
-      socket.off('receive_message');
-      socket.off('user_status');
-      socket.off('typing');
+      socket.off('connect', handleConnect);
+      socket.off('user_status', handleUserStatus);
+      socket.off('receive_message', handleReceiveMessage);
+      socket.off('typing', handleTyping);
     };
-  }, [socket, auth.user, currentChat]);
+  }, [socket, auth.user]);
 
   const loadConversations = async () => {
     try {

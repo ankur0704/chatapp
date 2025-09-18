@@ -1,128 +1,110 @@
+# Chat App
 
-# 💬 MERN Chat App
+A real-time chat application built with React, Node.js, Express, MongoDB, and Socket.io.
 
-A real-time chat application built using the MERN stack with TypeScript, Socket.IO, and TailwindCSS.
-It supports user authentication, secure messaging, and instant communication powered by WebSockets.
+## Features
 
+- User authentication (register/login)
+- Real-time messaging
+- Online/offline status
+- User search
+- Responsive design
 
+## Tech Stack
 
-## 🚀 Tech Stack
+- **Frontend**: React, TypeScript, Tailwind CSS, Vite
+- **Backend**: Node.js, Express, Socket.io
+- **Database**: MongoDB with Mongoose
+- **Authentication**: JWT tokens
 
-Frontend:
+## Quick Start
 
-⚛️ React 18 (with React Router)
+### Prerequisites
 
-🎨 TailwindCSS + PostCSS + Autoprefixer
+- Node.js (v18 or higher)
+- MongoDB (local or cloud)
 
-⚡ Vite (build tool)
+### Installation
 
-🛠️ TypeScript
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-🔗 Axios (API requests)
+3. Set up environment variables:
+   Create a `.env` file in the root directory:
+   ```
+   PORT=5000
+   MONGO_URL=mongodb://localhost:27017/chat-app
+   JWT_SECRET=your-secret-key-here
+   CLIENT_URL=http://localhost:5173
+   ```
 
-🎭 Lucide-react (icons)
+4. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-Backend:
+This will start both the backend server (port 5000) and frontend development server (port 5173).
 
-🌐 Node.js + Express.js
-
-🗄️ MongoDB with Mongoose ODM
-
-🔐 JWT (JSON Web Tokens) for authentication
-
-🔑 bcryptjs (password hashing)
-
-🌍 CORS + dotenv (configuration & security)
-
-Real-time Communication:
-
-🔄 Socket.IO (server + client)
-
-Development Tools:
-
-🖊️ ESLint + TypeScript ESLint
-
-🔁 Nodemon (auto-restart backend)
-
-🧪 Jenkins (CI/CD pipeline)
-
-## ✨ Features
-
-✅ User Authentication (JWT + bcrypt) 
-
-✅ Real-time messaging with Socket.IO 
-
-✅ Secure password hashing 
-
-✅ Responsive UI with TailwindCSS 
-
-✅ MongoDB persistence with Mongoose 
-
-✅ Modern frontend powered by React + Vite + TS
-## 📌 Future Improvements
-- Add group chat support
-
-- Implement message encryption
-
-- Push notifications
-
-- User profile pictures & status
-## Installation
-
-1️⃣ Clone the Repository
+### Using Docker
 
 ```bash
-git clone https://github.com/ankur0704/chatapp.git
-cd chatapp
-
+docker-compose up
 ```
 
-
-2️⃣ Install Dependencies
-
-```bash
-npm install
-
+## Project Structure
 
 ```
-
-
-3️⃣ Setup Environment Variables
-
-  Create a .env file in the root folder:
-
-```bash
-PORT=5000
-MONGO_URI=mongodb://localhost:27017/chat-app
-JWT_SECRET=your_secret_key
-
-
+├── server/                 # Backend code
+│   ├── controllers/        # Route controllers
+│   ├── middleware/         # Custom middleware
+│   ├── models/            # Database models
+│   ├── routes/            # API routes
+│   └── index.js           # Server entry point
+├── src/                   # Frontend code
+│   ├── components/        # React components
+│   ├── context/          # React context providers
+│   ├── pages/            # Page components
+│   └── main.tsx          # Frontend entry point
+├── package.json           # Dependencies and scripts
+└── vite.config.ts         # Vite configuration
 ```
 
-4️⃣ Run MongoDB
+## API Endpoints
 
-If running locally:
+### Authentication
+- `POST /api/auth/register` - Register new user
+- `POST /api/auth/login` - Login user
+- `GET /api/auth/me` - Get current user
 
-```bash
-mongosh
-use chat-app
+### Users
+- `GET /api/users` - Get all users
+- `GET /api/users/:id` - Get user by ID
+- `PUT /api/users/profile` - Update user profile
+- `PUT /api/users/status` - Update user status
 
+### Messages
+- `POST /api/messages` - Send message
+- `GET /api/messages/conversation/:userId` - Get conversation
+- `GET /api/messages/conversations` - Get all conversations
+- `PUT /api/messages/read` - Mark messages as read
 
-```
+## Socket Events
 
-5️⃣ Start the Application
+- `user_connected` - User connects
+- `send_message` - Send message
+- `receive_message` - Receive message
+- `typing` - Typing indicator
+- `user_status` - User online/offline status
 
-Run frontend:
+## Development
 
-```bash
-npm run dev
+- Frontend runs on `http://localhost:5173`
+- Backend runs on `http://localhost:5000`
+- MongoDB runs on `mongodb://localhost:27017`
 
-```
+## License
 
-Run backend:
-
-```bash
-npm run server
-
-```
-    
+MIT

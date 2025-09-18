@@ -1,29 +1,29 @@
+version: '3.8'
+
 services:
-  frontend:
-    build:
-      context: .  # Change this to the root directory
-    ports:
-      - "5173:3000"
-    depends_on:
-      - backend
-
-  backend:
-    build:
-      context: ./server
-      dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
-    environment:
-      - MONGO_URL=mongodb://mongo:27017/chat-app
-    depends_on:
-      - mongo
-
-  mongo:
+  mongodb:
     image: mongo:latest
     ports:
       - "27017:27017"
     volumes:
       - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=chat-app
+
+  app:
+    build: .
+    ports:
+      - "5000:5000"
+      - "5173:5173"
+    environment:
+      - MONGO_URL=mongodb://mongodb:27017/chat-app
+      - JWT_SECRET=your-secret-key-here
+      - CLIENT_URL=http://localhost:5173
+    depends_on:
+      - mongodb
+    volumes:
+      - .:/app
+      - /app/node_modules
 
 volumes:
   mongo-data:
