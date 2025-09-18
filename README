@@ -1,8 +1,0 @@
-npm install
-
-npm run dev   start frontend
-
-npm run server (run mongodb locally or using cloud) open in different terminal    start backend
--mongosh
--use chat-app
--db.users.find()
