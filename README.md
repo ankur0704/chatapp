@@ -1,3 +1,6 @@
+<img width="1904" height="1022" alt="Screenshot 2025-09-18 125709" src="https://github.com/user-attachments/assets/08a2099e-4b17-4781-a644-e56691a00d8a" />
+<img width="869" height="877" alt="Screenshot 2025-09-18 165106" src="https://github.com/user-attachments/assets/fa50e594-b309-4324-b072-962a284d0a1c" />
+<img width="1200" height="877" alt="image" src="https://github.com/user-attachments/assets/64c0af1f-15cc-48f3-be03-a54d088ba9fa" />
 # Chat App
 
 A real-time chat application built with React, Node.js, Express, MongoDB, and Socket.io.
