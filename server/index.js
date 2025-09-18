@@ -70,10 +70,21 @@ io.on('connection', (socket) => {
 });
 
 // Connect to MongoDB
-const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/chat-app';
-mongoose.connect(MONGO_URI)
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(err => console.error('Failed to connect to MongoDB:', err));
+// const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/chat-app';
+// mongoose.connect(MONGO_URI)
+//   .then(() => console.log('Connected to MongoDB'))
+//   .catch(err => console.error('Failed to connect to MongoDB:', err));
+
+
+const mongoURI = process.env.MONGO_URL || 'mongodb://localhost:27017/chat-app';
+
+mongoose.connect(mongoURI, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+.then(() => console.log("MongoDB connected"))
+.catch(err => console.error("MongoDB connection error:", err));
+
 
 // Start server
 const PORT = process.env.PORT || 5000;
