@@ -19,6 +19,7 @@ const UsersList: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(true);
   const { user } = useAuth();
+  const [creatingId, setCreatingId] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -80,6 +81,8 @@ const UsersList: React.FC = () => {
             placeholder="Search users..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            aria-label="Search users"
+            title="Search users"
           />
         </div>
       </div>
@@ -101,7 +104,36 @@ const UsersList: React.FC = () => {
                       isOnline: u.status === 'online'
                     }}
                   />
-                  <UserPlus size={18} className="text-gray-400 hover:text-blue-500" />
+                  <button
+                    type="button"
+                    className="p-2 rounded-md text-gray-400 hover:text-blue-500"
+                    onClick={(e) => { e.stopPropagation();
+                      (async () => {
+                        try {
+                          if (!user) return;
+                          setCreatingId(u._id);
+                          await axios.post(
+                            `${API_URL}/api/friends/request`,
+                            { recipientId: u._id },
+                            { headers: { Authorization: `Bearer ${user.token}` } }
+                          );
+                        } catch (err) {
+                          console.error('Error sending friend request:', err);
+                        } finally {
+                          setCreatingId(null);
+                        }
+                      })();
+                    }}
+                    disabled={creatingId === u._id}
+                    aria-label="Send friend request"
+                    title="Send friend request"
+                  >
+                    {creatingId === u._id ? (
+                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-solid border-current border-t-transparent"></div>
+                    ) : (
+                      <UserPlus size={18} />
+                    )}
+                  </button>
                 </button>
               </li>
             ))}

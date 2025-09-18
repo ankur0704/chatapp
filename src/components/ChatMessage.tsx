@@ -26,7 +26,7 @@ const ChatMessage: React.FC<MessageProps> = ({ message, senderInfo }) => {
   });
 
   return (
-    <div className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-4`}>
+    <div className={`flex ${isOwnMessage ? 'justify-end' : 'justify-start'} mb-3 px-1`}>
       {!isOwnMessage && (
         <div className="flex-shrink-0 mr-2">
           {senderInfo?.profilePicture ? (
@@ -42,12 +42,14 @@ const ChatMessage: React.FC<MessageProps> = ({ message, senderInfo }) => {
           )}
         </div>
       )}
-      <div className={`relative max-w-xl px-4 py-2 rounded-lg shadow ${
-        isOwnMessage ? 'bg-blue-600 text-white' : 'bg-gray-100 text-gray-800'
+      <div className={`relative max-w-xl px-3 py-2 rounded-2xl shadow ${
+        isOwnMessage 
+          ? 'bg-blue-600 text-white'
+          : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100'
       }`}>
         <p className="whitespace-pre-wrap">{message.content}</p>
-        <div className={`flex items-center text-xs mt-1 ${
-          isOwnMessage ? 'text-blue-200 justify-end' : 'text-gray-500'
+        <div className={`flex items-center text-[10px] mt-1 ${
+          isOwnMessage ? 'text-blue-200 justify-end' : 'text-gray-500 dark:text-gray-400'
         }`}>
           <span>{formattedTime}</span>
           {isOwnMessage && (
@@ -63,7 +65,7 @@ const ChatMessage: React.FC<MessageProps> = ({ message, senderInfo }) => {
         <div className={`absolute bottom-0 ${
           isOwnMessage ? 'left-0 -translate-x-1/2' : 'right-0 translate-x-1/2'
         } transform translate-y-1/2 rotate-45 w-2 h-2 ${
-          isOwnMessage ? 'bg-blue-600' : 'bg-gray-100'
+          isOwnMessage ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-800'
         }`}>
         </div>
       </div>

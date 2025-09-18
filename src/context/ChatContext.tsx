@@ -195,6 +195,26 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
     try {
       if (!auth.user || !socket) return;
 
+      // Optimistic UI: add a temp message immediately
+      const tempId = `temp-${Date.now()}`;
+      const optimisticMessage = {
+        _id: tempId,
+        sender: auth.user._id,
+        recipient: recipientId,
+        content,
+        read: false,
+        createdAt: new Date().toISOString(),
+      } as any;
+
+      setCurrentChat(prev => {
+        if (!prev || prev.user?._id !== recipientId) return prev;
+        return {
+          ...prev,
+          messages: [...prev.messages, optimisticMessage],
+        };
+      });
+
+      // Fire request
       const { data } = await axios.post(
         `${API_URL}/api/messages`,
         { recipient: recipientId, content },
@@ -204,6 +224,13 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
           }
         }
       );
+
+      // Replace optimistic message with real one
+      setCurrentChat(prev => {
+        if (!prev || prev.user?._id !== recipientId) return prev;
+        const next = prev.messages.map(m => (m._id === tempId ? { ...data } : m));
+        return { ...prev, messages: next };
+      });
 
       // Emit socket event
       socket.emit('send_message', {
@@ -216,14 +243,14 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
         createdAt: data.createdAt
       });
 
-      // Update current conversation
-      if (currentChat?.user?._id === recipientId) {
-        loadMessages(recipientId);
-      }
-
-      // Update conversations list
+      // Refresh lists lazily in background
       loadConversations();
     } catch (error) {
+      // Roll back optimistic message on failure
+      setCurrentChat(prev => {
+        if (!prev || prev.user?._id !== recipientId) return prev;
+        return { ...prev, messages: prev.messages.filter(m => !String(m._id).startsWith('temp-')) };
+      });
       console.error('Error sending message:', error);
     }
   };

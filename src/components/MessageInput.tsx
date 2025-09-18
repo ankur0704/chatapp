@@ -79,13 +79,14 @@ const MessageInput: React.FC<MessageInputProps> = ({
   return (
     <form 
       onSubmit={handleSubmit} 
-      className="border-t p-3 bg-white relative"
+      className="border-t border-gray-200 dark:border-gray-800 p-3 bg-white dark:bg-gray-900 relative"
     >
-      <div className="flex items-end bg-gray-100 rounded-lg overflow-hidden p-1">
+      <div className="flex items-end bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden p-1">
         <button
           type="button"
           className="p-2 text-gray-500 rounded-full hover:text-gray-700"
           aria-label="Add emoji"
+          title="Add emoji"
         >
           <Smile size={20} />
         </button>
@@ -95,7 +96,7 @@ const MessageInput: React.FC<MessageInputProps> = ({
           onChange={handleChange}
           onKeyDown={handleKeyDown}
           placeholder="Type a message..."
-          className="block w-full py-2 pl-3 pr-10 bg-gray-100 border-none resize-none focus:ring-0 focus:outline-none"
+          className="block w-full py-2 pl-3 pr-10 bg-gray-100 dark:bg-gray-800 dark:text-gray-100 border-none resize-none focus:ring-0 focus:outline-none"
           rows={1}
           disabled={disabled}
         />
@@ -104,9 +105,11 @@ const MessageInput: React.FC<MessageInputProps> = ({
           className={`p-2 rounded-full ${
             message.trim() && !disabled
               ? 'bg-blue-600 text-white'
-              : 'bg-gray-200 text-gray-400 cursor-not-allowed'
+              : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
           }`}
           disabled={!message.trim() || disabled}
+          aria-label="Send message"
+          title="Send message"
         >
           <Send size={20} />
         </button>
