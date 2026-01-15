@@ -47,7 +47,7 @@ const UsersList: React.FC = () => {
 
   useEffect(() => {
     if (searchTerm) {
-      const filtered = users.filter(user => 
+      const filtered = users.filter(user =>
         user.username.toLowerCase().includes(searchTerm.toLowerCase())
       );
       setFilteredUsers(filtered);
@@ -107,7 +107,8 @@ const UsersList: React.FC = () => {
                   <button
                     type="button"
                     className="p-2 rounded-md text-gray-400 hover:text-blue-500"
-                    onClick={(e) => { e.stopPropagation();
+                    onClick={(e) => {
+                      e.stopPropagation();
                       (async () => {
                         try {
                           if (!user) return;

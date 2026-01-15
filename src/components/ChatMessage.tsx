@@ -19,7 +19,7 @@ interface MessageProps {
 const ChatMessage: React.FC<MessageProps> = ({ message, senderInfo }) => {
   const { user } = useAuth();
   const isOwnMessage = user?._id === message.sender;
-  
+
   const formattedTime = new Date(message.createdAt).toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit'
@@ -42,15 +42,13 @@ const ChatMessage: React.FC<MessageProps> = ({ message, senderInfo }) => {
           )}
         </div>
       )}
-      <div className={`relative max-w-xl px-3 py-2 rounded-2xl shadow ${
-        isOwnMessage 
+      <div className={`relative max-w-xl px-3 py-2 rounded-2xl shadow ${isOwnMessage
           ? 'bg-blue-600 text-white'
           : 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-100'
-      }`}>
-        <p className="whitespace-pre-wrap">{message.content}</p>
-        <div className={`flex items-center text-[10px] mt-1 ${
-          isOwnMessage ? 'text-blue-200 justify-end' : 'text-gray-500 dark:text-gray-400'
         }`}>
+        <p className="whitespace-pre-wrap">{message.content}</p>
+        <div className={`flex items-center text-[10px] mt-1 ${isOwnMessage ? 'text-blue-200 justify-end' : 'text-gray-500 dark:text-gray-400'
+          }`}>
           <span>{formattedTime}</span>
           {isOwnMessage && (
             <span className="ml-1">
@@ -62,11 +60,9 @@ const ChatMessage: React.FC<MessageProps> = ({ message, senderInfo }) => {
             </span>
           )}
         </div>
-        <div className={`absolute bottom-0 ${
-          isOwnMessage ? 'left-0 -translate-x-1/2' : 'right-0 translate-x-1/2'
-        } transform translate-y-1/2 rotate-45 w-2 h-2 ${
-          isOwnMessage ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-800'
-        }`}>
+        <div className={`absolute bottom-0 ${isOwnMessage ? 'left-0 -translate-x-1/2' : 'right-0 translate-x-1/2'
+          } transform translate-y-1/2 rotate-45 w-2 h-2 ${isOwnMessage ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-800'
+          }`}>
         </div>
       </div>
     </div>

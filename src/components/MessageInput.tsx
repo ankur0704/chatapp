@@ -7,10 +7,10 @@ interface MessageInputProps {
   disabled?: boolean;
 }
 
-const MessageInput: React.FC<MessageInputProps> = ({ 
-  onSendMessage, 
+const MessageInput: React.FC<MessageInputProps> = ({
+  onSendMessage,
   onTyping,
-  disabled = false 
+  disabled = false
 }) => {
   const [message, setMessage] = useState('');
   const [isTyping, setIsTyping] = useState(false);
@@ -19,11 +19,11 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (message.trim() && !disabled) {
       onSendMessage(message.trim());
       setMessage('');
-      
+
       // Focus input after sending
       if (inputRef.current) {
         inputRef.current.focus();
@@ -40,18 +40,18 @@ const MessageInput: React.FC<MessageInputProps> = ({
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setMessage(e.target.value);
-    
+
     // Handle typing indicator
     if (!isTyping) {
       setIsTyping(true);
       onTyping(true);
     }
-    
+
     // Clear previous timeout
     if (typingTimeoutRef.current) {
       clearTimeout(typingTimeoutRef.current);
     }
-    
+
     // Set new timeout
     typingTimeoutRef.current = setTimeout(() => {
       setIsTyping(false);
@@ -77,8 +77,8 @@ const MessageInput: React.FC<MessageInputProps> = ({
   }, [message]);
 
   return (
-    <form 
-      onSubmit={handleSubmit} 
+    <form
+      onSubmit={handleSubmit}
       className="border-t border-gray-200 dark:border-gray-800 p-3 bg-white dark:bg-gray-900 relative"
     >
       <div className="flex items-end bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden p-1">
@@ -102,11 +102,10 @@ const MessageInput: React.FC<MessageInputProps> = ({
         />
         <button
           type="submit"
-          className={`p-2 rounded-full ${
-            message.trim() && !disabled
+          className={`p-2 rounded-full ${message.trim() && !disabled
               ? 'bg-blue-600 text-white'
               : 'bg-gray-200 dark:bg-gray-700 text-gray-400 dark:text-gray-500 cursor-not-allowed'
-          }`}
+            }`}
           disabled={!message.trim() || disabled}
           aria-label="Send message"
           title="Send message"

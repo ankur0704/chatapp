@@ -61,7 +61,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
   const [currentChat, setCurrentChat] = useState<{ messages: Message[]; user: User | null } | null>(null);
   const [userTyping, setUserTyping] = useState<{ userId: string; isTyping: boolean } | null>(null);
   const [onlineUsers, setOnlineUsers] = useState<Record<string, boolean>>({});
-  
+
   const auth = useAuth();
 
   // Initialize socket connection ONCE per login
@@ -154,7 +154,7 @@ export const ChatProvider: React.FC<ChatProviderProps> = ({ children }) => {
       });
 
       setConversations(data);
-      
+
       // Update online users status
       const onlineStatus: Record<string, boolean> = {};
       data.forEach((conversation: Conversation) => {

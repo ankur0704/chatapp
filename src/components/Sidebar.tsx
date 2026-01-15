@@ -8,15 +8,15 @@ const Sidebar: React.FC = () => {
   const { conversations, loadConversations, onlineUsers } = useChat();
   const navigate = useNavigate();
   const location = useLocation();
-  
+
   useEffect(() => {
     loadConversations();
-    
+
     // Refresh conversations every 30 seconds
     const interval = setInterval(() => {
       loadConversations();
     }, 30000);
-    
+
     return () => clearInterval(interval);
   }, [loadConversations]);
 
@@ -24,7 +24,7 @@ const Sidebar: React.FC = () => {
   const latestConversation = conversations
     .slice()
     .sort((a: any, b: any) => new Date(b.lastMessage?.createdAt || 0).getTime() - new Date(a.lastMessage?.createdAt || 0).getTime())
-    [0];
+  [0];
 
   const openLatestConversation = () => {
     if (latestConversation?._id) {
@@ -41,11 +41,10 @@ const Sidebar: React.FC = () => {
         {conversations.length > 0 ? (
           <ul className="divide-y divide-gray-200">
             {conversations.map((conversation) => (
-              <li 
-                key={conversation._id} 
-                className={`hover:bg-gray-50 transition-colors ${
-                  location.pathname === `/chat/${conversation._id}` ? 'bg-blue-50 dark:bg-gray-800' : ''
-                }`}
+              <li
+                key={conversation._id}
+                className={`hover:bg-gray-50 transition-colors ${location.pathname === `/chat/${conversation._id}` ? 'bg-blue-50 dark:bg-gray-800' : ''
+                  }`}
               >
                 <button
                   className="w-full px-4 py-3 flex items-start"
@@ -76,7 +75,7 @@ const Sidebar: React.FC = () => {
       </div>
       <div className="mt-auto border-t border-gray-200">
         <nav className="flex items-center justify-around p-2">
-          <button 
+          <button
             className={`p-2 transition-colors ${location.pathname === '/' ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'} dark:text-gray-400 dark:hover:text-blue-400`}
             onClick={() => navigate('/')}
             aria-label="People"
@@ -84,7 +83,7 @@ const Sidebar: React.FC = () => {
           >
             <Users size={20} />
           </button>
-          <button 
+          <button
             className={`p-2 transition-colors ${location.pathname.startsWith('/chat') ? 'text-blue-600' : 'text-gray-500 hover:text-blue-600'} dark:text-gray-400 dark:hover:text-blue-400`}
             onClick={openLatestConversation}
             disabled={!latestConversation}
@@ -93,7 +92,7 @@ const Sidebar: React.FC = () => {
           >
             <MessageSquare size={20} />
           </button>
-          <button 
+          <button
             className="p-2 text-gray-500 hover:text-blue-600 transition-colors dark:text-gray-400 dark:hover:text-blue-400"
             onClick={openLatestConversation}
             disabled={!latestConversation}

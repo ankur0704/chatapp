@@ -7,7 +7,7 @@ import Layout from '../components/Layout';
 const Profile: React.FC = () => {
   const { user, updateProfile, logout } = useAuth();
   const navigate = useNavigate();
-  
+
   const [username, setUsername] = useState('');
   const [profilePicture, setProfilePicture] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -127,9 +127,8 @@ const Profile: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoading}
-                className={`inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white ${
-                  isLoading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
-                } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
+                className={`inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white ${isLoading ? 'bg-blue-400' : 'bg-blue-600 hover:bg-blue-700'
+                  } focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500`}
               >
                 {isLoading ? 'Saving...' : 'Save Changes'}
               </button>

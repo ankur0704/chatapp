@@ -10,12 +10,12 @@ import { useAuth } from '../context/AuthContext';
 const Chat: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { 
+  const {
     currentChat,
     loadMessages,
     sendMessage,
     userTyping,
-    setUserTyping 
+    setUserTyping
   } = useChat();
   const { user } = useAuth();
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -67,7 +67,7 @@ const Chat: React.FC = () => {
           >
             <ArrowLeft size={20} />
           </button>
-          
+
           {currentChat?.user && (
             <div className="flex items-center flex-1">
               <div className="relative">
@@ -82,16 +82,15 @@ const Chat: React.FC = () => {
                     {currentChat.user.username.charAt(0).toUpperCase()}
                   </div>
                 )}
-                <span className={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white ${
-                  currentChat.user.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
-                }`}></span>
+                <span className={`absolute bottom-0 right-0 block h-3 w-3 rounded-full ring-2 ring-white ${currentChat.user.status === 'online' ? 'bg-green-500' : 'bg-gray-400'
+                  }`}></span>
               </div>
-              
+
               <div className="ml-3">
                 <p className="text-sm font-medium text-gray-900 dark:text-gray-100">{currentChat.user.username}</p>
                 <p className="text-xs text-gray-500 dark:text-gray-400">
-                  {userTyping?.userId === id && userTyping.isTyping 
-                    ? 'Typing...' 
+                  {userTyping?.userId === id && userTyping.isTyping
+                    ? 'Typing...'
                     : currentChat.user.status === 'online'
                       ? 'Online'
                       : 'Offline'
@@ -100,7 +99,7 @@ const Chat: React.FC = () => {
               </div>
             </div>
           )}
-          
+
           <button
             className="p-1 text-gray-500 dark:text-gray-300 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800"
             aria-label="More"
@@ -109,7 +108,7 @@ const Chat: React.FC = () => {
             <MoreVertical size={20} />
           </button>
         </div>
-        
+
         {/* Messages */}
         <div className="flex-1 overflow-y-auto p-4 bg-white dark:bg-gray-900">
           {currentChat?.messages && currentChat.messages.length > 0 ? (
@@ -119,8 +118,8 @@ const Chat: React.FC = () => {
                   key={message._id}
                   message={message}
                   senderInfo={{
-                    username: message.sender === user?._id 
-                      ? user.username 
+                    username: message.sender === user?._id
+                      ? user.username
                       : currentChat.user?.username || '',
                     profilePicture: message.sender === user?._id
                       ? user.profilePicture
@@ -137,9 +136,9 @@ const Chat: React.FC = () => {
             </div>
           )}
         </div>
-        
+
         {/* Message input */}
-        <MessageInput 
+        <MessageInput
           onSendMessage={handleSendMessage}
           onTyping={handleTyping}
           disabled={!currentChat?.user}

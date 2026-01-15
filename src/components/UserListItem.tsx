@@ -12,11 +12,11 @@ interface UserListItemProps {
   unreadCount?: number;
 }
 
-const UserListItem: React.FC<UserListItemProps> = ({ 
-  user, 
-  lastMessage, 
-  time, 
-  unreadCount = 0 
+const UserListItem: React.FC<UserListItemProps> = ({
+  user,
+  lastMessage,
+  time,
+  unreadCount = 0
 }) => {
   return (
     <div className="flex w-full">
